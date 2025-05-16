@@ -19,7 +19,7 @@ A Python-based automated trading bot that implements a long-term strategy using 
 
 1.  **Clone this repository:**
     ```bash
-    git clone <your-repository-url>
+    git clone git@github.com:ernestobone98/trading_bot.git
     cd trading-bot
     ```
 2.  **Create a Python virtual environment (recommended):**
