@@ -1,0 +1,9 @@
+alpaca-trade-api>=3.0.0
+pandas>=2.0.0
+numpy>=1.24.0
+python-dotenv>=1.0.0
+schedule>=1.2.0
+requests>=2.31.0
+pushbullet.py>=0.9.1
+pandas-ta>=0.3.14b0
+python-binance>=1.0.17
