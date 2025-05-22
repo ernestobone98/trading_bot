@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  trading-bot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: trading-bot
+    ports:
+      - "8000:8000" # Expose metrics port to host (optional, for direct access/debug)
+    env_file:
+      - .env # Pass environment variables from .env file
+    volumes:
+      - .:/app # Mount the current directory to /app in the container
+    # Add restart policy if needed, e.g.:
+    # restart: unless-stopped 
+    # Make sure your bot's script is the CMD or ENTRYPOINT in your Dockerfile
+    # For example, your Dockerfile might end with: CMD ["python", "trading_bot.py"]
+
+  prometheus:
+    image: prom/prometheus:v2.47.0 # Using a specific version for stability
+    container_name: prometheus
+    ports:
+      - "9090:9090" # Prometheus UI and API
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus # Persistent storage for Prometheus data
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    # restart: unless-stopped
+    # depends_on: 
+    #   - trading-bot # If trading-bot is also a service
+
+  grafana:
+    image: grafana/grafana:10.1.1 # Using a specific version for stability
+    container_name: grafana
+    ports:
+      - "3000:3000" # Grafana UI
+    volumes:
+      - grafana_data:/var/lib/grafana # Persistent storage for Grafana dashboards and configs
+    # restart: unless-stopped
+    # depends_on:
+    #   - prometheus
+
+volumes:
+  prometheus_data: {}
+  grafana_data: {}
