@@ -337,9 +337,9 @@ def main():
         logging.error(f"Could not start Prometheus metrics server: {e}")
 
     # --- Scheduling --- 
-    # Run trading strategy hourly if market is open
-    schedule.every().hour.at(":01").do(run_bot_job, bot_instance=bot) 
-    logging.info("Scheduled hourly job to run at 1 minute past the hour (if market open).")
+    # Run trading strategy once daily at 16:30 New York time
+    schedule.every().day.at("16:30", "America/New_York").do(run_bot_job, bot_instance=bot) 
+    logging.info("Scheduled daily job to run at 16:30 New York time.")
 
     # Send daily summary (e.g., after market close NY time)
     # Ensure pytz is installed for timezone-aware scheduling
